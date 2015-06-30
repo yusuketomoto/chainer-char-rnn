@@ -27,7 +27,7 @@ Given a checkpoint file (such as those written to cv) we can generate new text. 
 ```
 $ python sample.py \
 --vocabulary data/tinyshakespeare/vocab.bin \
---model cv/some_checkpoint.chainermodel
+--model cv/some_checkpoint.chainermodel \
 --primetext some_text --gpu -1
 ```
 ## References
