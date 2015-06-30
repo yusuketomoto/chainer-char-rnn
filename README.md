@@ -32,3 +32,4 @@ $ python sample.py \
 ```
 ## References
 - Original implementation: https://github.com/karpathy/char-rnn
+- Blog post: http://karpathy.github.io/2015/05/21/rnn-effectiveness/
