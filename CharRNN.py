@@ -28,10 +28,20 @@ class CharRNN(FunctionSet):
         y       = self.l3(F.dropout(h2, ratio=dropout_ratio, train=train))
         state   = {'c1': c1, 'h1': h1, 'c2': c2, 'h2': h2}
 
-        if train:
-            return state, F.softmax_cross_entropy(y, t)
-        else:
-            return state, F.softmax(y)
+        return state, F.softmax_cross_entropy(y, t)
+
+    def predict(self, x_data, state):
+        x = Variable(x_data, volatile=True)
+
+        h0      = self.embed(x)
+        h1_in   = self.l1_x(h0) + self.l1_h(state['h1'])
+        c1, h1  = F.lstm(state['c1'], h1_in)
+        h2_in   = self.l2_x(h1) + self.l2_h(state['h2'])
+        c2, h2  = F.lstm(state['c2'], h2_in)
+        y       = self.l3(h2)
+        state   = {'c1': c1, 'h1': h1, 'c2': c2, 'h2': h2}
+
+        return state, F.softmax(y)
 
 def make_initial_state(n_units, batchsize=50, train=True):
     return {name: Variable(np.zeros((batchsize, n_units), dtype=np.float32),
