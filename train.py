@@ -70,7 +70,10 @@ optimizer.setup(model.collect_parameters())
 
 whole_len    = train_data.shape[0]
 jump         = whole_len / batchsize
-cur_log_perp = cuda.zeros(())
+if args.gpu >= 0:
+    cur_log_perp = cuda.zeros(())
+else:
+    cur_log_perp = np.zeros(())
 epoch        = 0
 start_at     = time.time()
 cur_at       = start_at
