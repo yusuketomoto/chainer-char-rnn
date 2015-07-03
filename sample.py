@@ -20,7 +20,7 @@ parser.add_argument('--seed',       type=int,   default=123)
 parser.add_argument('--sample',     type=int,   default=1)
 parser.add_argument('--primetext',  type=str,   default='')
 parser.add_argument('--length',     type=int,   default=2000)
-parser.add_argument('--gpu',        type=int,   default=0)
+parser.add_argument('--gpu',        type=int,   default=-1)
 
 args = parser.parse_args()
 
