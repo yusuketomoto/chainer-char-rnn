@@ -23,6 +23,8 @@ def load_data(args):
         if word not in vocab:
             vocab[word] = len(vocab)
         dataset[i] = vocab[word]
+    print 'corpus length:', len(words)
+    print 'vocab size:', len(vocab)
     return dataset, words, vocab
 
 # arguments
@@ -70,10 +72,6 @@ optimizer.setup(model.collect_parameters())
 
 whole_len    = train_data.shape[0]
 jump         = whole_len / batchsize
-if args.gpu >= 0:
-    cur_log_perp = cuda.zeros(())
-else:
-    cur_log_perp = np.zeros(())
 epoch        = 0
 start_at     = time.time()
 cur_at       = start_at
@@ -98,9 +96,12 @@ for i in xrange(jump * n_epochs):
 
     state, loss_i = model.forward_one_step(x_batch, y_batch, state, dropout_ratio=args.dropout)
     accum_loss   += loss_i
-    cur_log_perp += loss_i.data.reshape(())
 
     if (i + 1) % bprop_len == 0:  # Run truncated BPTT
+        now = time.time()
+        print '{}/{}, train_loss = {}, time = {:.2f}'.format((i+1)/bprop_len, jump, accum_loss.data / bprop_len, now-cur_at)
+        cur_at = now
+
         optimizer.zero_grads()
         accum_loss.backward()
         accum_loss.unchain_backward()  # truncate
@@ -113,15 +114,7 @@ for i in xrange(jump * n_epochs):
         optimizer.update()
 
     if (i + 1) % 10000 == 0:
-        now      = time.time()
-        throuput = 10000. / (now - cur_at)
-        perp     = math.exp(cuda.to_cpu(cur_log_perp) / 10000)
-        print 'iter {} training perplexity: {:.2f} ({:.2f} iters/sec)'.format(
-            i + 1, perp, throuput)
-        cur_at   = now
-        cur_log_perp.fill(0)
-
-        fn = ('%s/charrnn_epoch_%.2f_%.2f.chainermodel' % (args.checkpoint_dir, float(i)/jump, perp))
+        fn = ('%s/charrnn_epoch_%.2f.chainermodel' % (args.checkpoint_dir, float(i)/jump))
         pickle.dump(copy.deepcopy(model).to_cpu(), open(fn, 'wb'))
 
     if (i + 1) % jump == 0:
