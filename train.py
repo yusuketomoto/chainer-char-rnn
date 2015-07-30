@@ -64,7 +64,7 @@ else:
     model = CharRNN(len(vocab), n_units)
 
 if args.gpu >= 0:
-    cuda.init()
+    cuda.init(args.gpu)
     model.to_gpu()
 
 optimizer = optimizers.RMSprop(lr=args.learning_rate, alpha=args.decay_rate, eps=1e-8)
