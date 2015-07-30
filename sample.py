@@ -37,7 +37,7 @@ model = pickle.load(open(args.model, 'rb'))
 n_units = model.embed.W.shape[1]
 
 if args.gpu >= 0:
-    cuda.init()
+    cuda.init(args.gpu)
     model.to_gpu()
 
 # initialize generator
