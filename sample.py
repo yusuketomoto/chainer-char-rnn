@@ -46,13 +46,13 @@ if args.gpu >= 0:
     for key, value in state.items():
         value.data = cuda.to_gpu(value.data)
 
-prev_char = np.array([0])
+prev_char = np.array([0], dtype=np.int32)
 if args.gpu >= 0:
     prev_char = cuda.to_gpu(prev_char)
 if len(args.primetext) > 0:
     for i in args.primetext:
         sys.stdout.write(i)
-        prev_char = np.ones((1,)).astype(np.int32) * vocab[i]
+        prev_char = np.ones((1,), dtype=np.int32) * vocab[i]
         if args.gpu >= 0:
             prev_char = cuda.to_gpu(prev_char)
 
@@ -69,7 +69,7 @@ for i in xrange(args.length):
         index = np.argmax(cuda.to_cpu(prob.data))
     sys.stdout.write(ivocab[index])
 
-    prev_char = np.array([index])
+    prev_char = np.array([index], dtype=np.int32)
     if args.gpu >= 0:
         prev_char = cuda.to_gpu(prev_char)
 
