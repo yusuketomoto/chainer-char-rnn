@@ -81,7 +81,7 @@ if args.gpu >= 0:
     for key, value in state.items():
         value.data = cuda.to_gpu(value.data)
 else:
-    accum_loss   = Variable(np.zeros(()))
+    accum_loss   = Variable(np.zeros((), dtype=np.float32))
 
 print 'going to train {} iterations'.format(jump * n_epochs)
 for i in xrange(jump * n_epochs):
@@ -108,7 +108,7 @@ for i in xrange(jump * n_epochs):
         if args.gpu >= 0:
             accum_loss = Variable(cuda.zeros(()))
         else:
-            accum_loss = Variable(np.zeros(()))
+            accum_loss = Variable(np.zeros((), dtype=np.float32))
 
         optimizer.clip_grads(grad_clip)
         optimizer.update()
