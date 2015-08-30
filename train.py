@@ -68,7 +68,7 @@ if args.gpu >= 0:
     model.to_gpu()
 
 optimizer = optimizers.RMSprop(lr=args.learning_rate, alpha=args.decay_rate, eps=1e-8)
-optimizer.setup(model.collect_parameters())
+optimizer.setup(model)
 
 whole_len    = train_data.shape[0]
 jump         = whole_len / batchsize
