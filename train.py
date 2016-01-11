@@ -31,7 +31,7 @@ def load_data(args):
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_dir',                   type=str,   default='data/tinyshakespeare')
 parser.add_argument('--checkpoint_dir',             type=str,   default='cv')
-parser.add_argument('--gpu',                        type=int,   default=0)
+parser.add_argument('--gpu',                        type=int,   default=-1)
 parser.add_argument('--rnn_size',                   type=int,   default=128)
 parser.add_argument('--learning_rate',              type=float, default=2e-3)
 parser.add_argument('--learning_rate_decay',        type=float, default=0.97)
