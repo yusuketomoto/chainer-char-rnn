@@ -6,7 +6,6 @@ karpathy's [char-rnn](https://github.com/karpathy/char-rnn) implementation by [C
 - [Chainer](https://github.com/pfnet/chainer)
 ```
 $ pip install chainer
-$ pip install chainer-cuda-deps
 ```
 
 ## Train
