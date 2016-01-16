@@ -59,10 +59,10 @@ if len(args.primetext) > 0:
         if args.gpu >= 0:
             prev_char = cuda.to_gpu(prev_char)
 
-        state, prob = model.predict(prev_char, state)
+        state, prob = model.forward_one_step(prev_char, prev_char, state, train=False)
 
 for i in xrange(args.length):
-    state, prob = model.predict(prev_char, state)
+    state, prob = model.forward_one_step(prev_char, prev_char, state, train=False)
 
     if args.sample > 0:
         probability = cuda.to_cpu(prob.data)[0].astype(np.float64)
