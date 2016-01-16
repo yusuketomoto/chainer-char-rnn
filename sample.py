@@ -37,7 +37,7 @@ for c, i in vocab.items():
 
 # load model
 model = pickle.load(open(args.model, 'rb'))
-n_units = model.embed.W.shape[1]
+n_units = model.embed.W.data.shape[1]
 
 if args.gpu >= 0:
     cuda.get_device(args.gpu).use()
