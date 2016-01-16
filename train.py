@@ -6,6 +6,7 @@ import argparse
 import cPickle as pickle
 import copy
 import os
+import codecs
 
 import numpy as np
 from chainer import cuda, Variable, FunctionSet, optimizers
@@ -16,7 +17,7 @@ from CharRNN import CharRNN, make_initial_state
 def load_data(args):
     vocab = {}
     print ('%s/input.txt'% args.data_dir)
-    words = open('%s/input.txt' % args.data_dir, 'rb').read()
+    words = codecs.open('%s/input.txt' % args.data_dir, 'rb', 'utf-8').read()
     words = list(words)
     dataset = np.ndarray((len(words),), dtype=np.int32)
     for i, word in enumerate(words):

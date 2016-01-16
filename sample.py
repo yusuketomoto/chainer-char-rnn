@@ -4,11 +4,14 @@ import math
 import sys
 import argparse
 import cPickle as pickle
+import codecs
 
 import numpy as np
 from chainer import cuda, Variable, FunctionSet
 import chainer.functions as F
 from CharRNN import CharRNN, make_initial_state
+
+sys.stdout = codecs.getwriter('utf_8')(sys.stdout)
 
 #%% arguments
 parser = argparse.ArgumentParser()
@@ -50,7 +53,7 @@ prev_char = np.array([0], dtype=np.int32)
 if args.gpu >= 0:
     prev_char = cuda.to_gpu(prev_char)
 if len(args.primetext) > 0:
-    for i in args.primetext:
+    for i in unicode(args.primetext, 'utf-8'):
         sys.stdout.write(i)
         prev_char = np.ones((1,), dtype=np.int32) * vocab[i]
         if args.gpu >= 0:
