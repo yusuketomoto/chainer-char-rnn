@@ -1,17 +1,18 @@
 import numpy as np
 from chainer import Variable, FunctionSet
 import chainer.functions as F
+import chainer.links as L
 
 class CharRNN(FunctionSet):
 
     def __init__(self, n_vocab, n_units):
         super(CharRNN, self).__init__(
             embed = F.EmbedID(n_vocab, n_units),
-            l1_x = F.Linear(n_units, 4*n_units),
-            l1_h = F.Linear(n_units, 4*n_units),
-            l2_h = F.Linear(n_units, 4*n_units),
-            l2_x = F.Linear(n_units, 4*n_units),
-            l3   = F.Linear(n_units, n_vocab),
+            l1_x = L.Linear(n_units, 4*n_units),
+            l1_h = L.Linear(n_units, 4*n_units),
+            l2_h = L.Linear(n_units, 4*n_units),
+            l2_x = L.Linear(n_units, 4*n_units),
+            l3   = L.Linear(n_units, n_vocab),
         )
         for param in self.parameters:
             param[:] = np.random.uniform(-0.08, 0.08, param.shape)
