@@ -52,6 +52,8 @@ if args.gpu >= 0:
 prev_char = np.array([0], dtype=np.int32)
 if args.gpu >= 0:
     prev_char = cuda.to_gpu(prev_char)
+
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 if len(args.primetext) > 0:
     for i in unicode(args.primetext, 'utf-8'):
         sys.stdout.write(i)

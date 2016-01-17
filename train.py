@@ -117,6 +117,7 @@ for i in xrange(jump * n_epochs):
     if (i + 1) % 10000 == 0:
         fn = ('%s/charrnn_epoch_%.2f.chainermodel' % (args.checkpoint_dir, float(i)/jump))
         pickle.dump(copy.deepcopy(model).to_cpu(), open(fn, 'wb'))
+        pickle.dump(copy.deepcopy(model).to_cpu(), open('%s/latest.chainermodel'%(args.checkpoint_dir), 'wb'))
 
     if (i + 1) % jump == 0:
         epoch += 1
